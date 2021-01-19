@@ -1,7 +1,7 @@
 # Lighthouse Fairway
 
 This extension brings [Fairway](https://github.com/buoy-graphql/fairway-spec)-compatibility to
-[Lighthouse](https://lighthouse-php.com), which makes Lighthouse fully compatible with the [Buoy-client](https://ngx-buoy.com).
+[Lighthouse](https://lighthouse-php.com), which makes it fully compatible with the [Buoy-client](https://ngx-buoy.com).
 
 ## Installation
 
