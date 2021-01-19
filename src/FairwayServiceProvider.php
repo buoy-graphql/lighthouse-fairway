@@ -22,15 +22,23 @@ class FairwayServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/lighthouse-fairway.php' => $this->app->configPath().'/lighthouse-fairway.php',
-        ]);
+        ], 'lighthouse-fairway-config');
 
         // Register types
         $typeRegistry->register(new LaravelEnumType(EventType::class));
 
-        $dispatcher->listen(
-    RegisterDirectiveNamespaces::class,
-    RegisterDirectives::class
-        );
+        // Register directives
+        if (config('lighthouse-fairway.register_directives')) {
+            $dispatcher->listen(
+                RegisterDirectiveNamespaces::class,
+                RegisterDirectives::class
+            );
+        }
+
+        // Register client directives
+        if (config('lighthouse-fairway.add_client_directives')) {
+            // TODO
+        }
     }
 
     public function register(): void
