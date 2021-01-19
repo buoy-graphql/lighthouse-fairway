@@ -9,13 +9,41 @@ This extension brings [Fairway](https://github.com/buoy-graphql/fairway-spec)-co
 composer require buoy/lighthouse-fairway
 ```
 
-## Configuration
-
-Lighthouse Fairway has a configuration file that can be published:
+Then publish the configuration.
 
 ```shell
 php artisan vendor:publish --tag=lighthouse-fairway-config  
 ```
+
+Then create the class that will handle authorization and filtering for your subscriptions:
+
+```php
+<?php
+
+namespace App\GraphQL\Subscriptions;
+
+use Buoy\LighthouseFairway\Subscriptions\FairwayModelEventSubscription;
+use Illuminate\Http\Request;
+use Nuwave\Lighthouse\Subscriptions\Subscriber;
+
+class FairwayModelSubscription extends FairwayModelEventSubscription
+{
+    public function authorize(Subscriber $subscriber, Request $request): bool
+    {
+        // Authorize the user
+        return true;
+    }
+
+    public function filterSubscription(Subscriber $subscriber, $root): bool
+    {
+        // Add filtering here. Filtering based on event type is handled for you.
+        return true;
+    }
+}
+```
+
+Lastly, enter the namespace for your subscription-class in the `lighthouse-fairway.php` config-file
+
 
 ## Usage
 

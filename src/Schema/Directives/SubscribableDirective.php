@@ -2,6 +2,7 @@
 
 namespace Buoy\LighthouseFairway\Schema\Directives;
 
+use Buoy\LighthouseFairway\Exceptions\NoSubscriptionException;
 use GraphQL\Language\AST\TypeDefinitionNode;
 use GraphQL\Language\Parser;
 use Illuminate\Support\Str;
@@ -21,6 +22,9 @@ directive @subscribable on OBJECT
 SDL;
     }
 
+    /**
+     * @throws NoSubscriptionException
+     */
     public function manipulateTypeDefinition(DocumentAST &$documentAST, TypeDefinitionNode &$typeDefinition): void
     {
         $model = $typeDefinition->name->value;
@@ -35,11 +39,18 @@ SDL;
         ");
 
         $subscription = Str::camel(class_basename($model)) . 'Modified';
+        $subscriptionClass = '\\'.config('lighthouse-fairway.subscription_class');
+
+        if (!class_exists($subscriptionClass)) {
+            throw new NoSubscriptionException('"subscription_class" in the lighthouse-fairway config must be a valid namespace.');
+        }
+
+        $subscriptionClass = str_replace('\\', '\\\\', $subscriptionClass);
 
         $documentAST->types["Subscription"] = Parser::objectTypeDefinition(/** @lang GraphQL */"
             type Subscription {
                 {$subscription}(events: [EventType!], id: ID): {$model}Event
-                @subscription(class: \"\\\\Buoy\\\\LighthouseFairway\\\\Subscriptions\\\\ModelEventSubscription\")
+                @subscription(class: \"{$subscriptionClass}\")
             }
         ");
     }
