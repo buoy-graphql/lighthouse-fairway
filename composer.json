@@ -1,0 +1,57 @@
+{
+  "name": "buoy/lighthouse-fairway",
+  "type": "library",
+  "description": "Adding Fairway-compliance to the Lighthouse GraphQL server for Laravel",
+  "keywords": [
+    "graphql",
+    "laravel",
+    "laravel-graphql",
+    "fairway",
+    "buoy"
+  ],
+  "homepage": "https://ngx-buoy.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Albert Haff",
+      "email": "ahn@utecca.com",
+      "homepage": "https://alberthaff.dk"
+    }
+  ],
+  "require": {
+    "nuwave/lighthouse": "^v5.0",
+    "webonyx/graphql-php": "^14.2"
+  },
+  "require-dev": {
+    "bensampo/laravel-enum": "^1.28.3 || ^2 || ^3",
+    "laravel/framework": "5.6.* || 5.7.* || 5.8.* || ^6 || ^7 || ^8"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Buoy\\LighthouseFairway\\FairwayServiceProvider"
+      ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Buoy\\LighthouseFairway\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --colors=always",
+    "test:unit": "phpunit --colors=always --testsuite Unit"
+  },
+  "support": {
+    "issues": "https://github.com/buoy-graphql/lighthouse-fairway/issues",
+    "source": "https://github.com/buoy-graphql/lighthouse-fairway/lighthouse"
+  }
+}
