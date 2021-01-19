@@ -23,7 +23,7 @@
     "webonyx/graphql-php": "^14.2"
   },
   "require-dev": {
-    "bensampo/laravel-enum": "^1.28.3 || ^2 || ^3",
+    "bensampo/laravel-enum": "^3",
     "laravel/framework": "^7 || ^8"
   },
   "config": {
