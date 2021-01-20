@@ -89,7 +89,7 @@ type Subscription {
 
 The @subscribable directive can also use a custom subscription class if needed:
 ```graphql
-type Note @subscribable(class: "App\\GraphQL\\Subscriptions\\MyCustomSubscription") {
+type Note @subscribable(class: "\\\\App\\\\GraphQL\\\\Subscriptions\\\\MyCustomSubscription") {
     id
     text
 }
