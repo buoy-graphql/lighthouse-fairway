@@ -87,6 +87,16 @@ type Subscription {
 }
 ```
 
+The @subscribable directive can also use a custom subscription class if needed:
+```graphql
+type Note @subscribable(class: "App\\GraphQL\\Subscriptions\\MyCustomSubscription") {
+    id
+    text
+}
+```
+Just make sure that it returns data that conforms to the generated schema.
+It is recommended to extend `Buoy\LighthouseFairway\Subscriptions\FairwayModelEventSubscription` in order to maintain the event-type filtering.
+
 ### Dispatching events
 
 Events are dispatched with the Broadcast-utility.
@@ -94,6 +104,5 @@ Simply supply the model and event type, and the event will be broadcast to all a
 
 ```php
 $note = App\Models\Note::first();
-
 Buoy\LighthouseFairway\Util\Broadcast::modelEvent($note, 'update');
 ```

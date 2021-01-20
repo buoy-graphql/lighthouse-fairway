@@ -18,7 +18,10 @@ class SubscribableDirective extends BaseDirective implements TypeManipulator
 """
 Make a field subscribable. 
 """
-directive @subscribable on OBJECT
+directive @subscribable (
+    "Use a custom class for the subscription"
+    class: String
+) on OBJECT
 SDL;
     }
 
@@ -28,6 +31,9 @@ SDL;
     public function manipulateTypeDefinition(DocumentAST &$documentAST, TypeDefinitionNode &$typeDefinition): void
     {
         $model = $typeDefinition->name->value;
+        $directive = collect($typeDefinition->directives)->where('name.value', '=', 'subscribable')->first();
+        $arguments = collect($directive->arguments);
+        $subscriptionClass = optional(optional($arguments->where('name.value', '=', 'class')->first())->value)->value;
 
         $documentAST->types["{$model}Event"] = Parser::objectTypeDefinition(/** @lang GraphQL */"
             \"The type of model event.\"
@@ -39,13 +45,14 @@ SDL;
         ");
 
         $subscription = Str::camel(class_basename($model)) . 'Modified';
-        $subscriptionClass = '\\'.config('lighthouse-fairway.subscription_class');
 
-        if (!class_exists($subscriptionClass)) {
-            throw new NoSubscriptionException('"subscription_class" in the lighthouse-fairway config must be a valid namespace.');
+        if (!$subscriptionClass) {
+            $subscriptionClass = '\\' . config('lighthouse-fairway.subscription_class');
+            if (!class_exists($subscriptionClass)) {
+                throw new NoSubscriptionException('"subscription_class" in the lighthouse-fairway config must be a valid namespace.');
+            }
+            $subscriptionClass = str_replace('\\', '\\\\', $subscriptionClass);
         }
-
-        $subscriptionClass = str_replace('\\', '\\\\', $subscriptionClass);
 
         $documentAST->types["Subscription"] = Parser::objectTypeDefinition(/** @lang GraphQL */"
             type Subscription {
