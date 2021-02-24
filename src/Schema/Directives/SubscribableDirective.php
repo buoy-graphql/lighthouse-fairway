@@ -54,11 +54,19 @@ SDL;
             $subscriptionClass = str_replace('\\', '\\\\', $subscriptionClass);
         }
 
-        $documentAST->types["Subscription"] = Parser::objectTypeDefinition(/** @lang GraphQL */"
+        $definition = Parser::objectTypeDefinition(/** @lang GraphQL */"
             type Subscription {
                 {$subscription}(events: [EventType!], id: ID): {$model}Event
                 @subscription(class: \"{$subscriptionClass}\")
             }
         ");
+
+        // Merge the field into the Subscription type
+        if ($documentAST->types["Subscription"]) {
+            $documentAST->types["Subscription"]->fields = $documentAST->types["Subscription"]->fields
+                ->merge($definition->fields);
+        } else {
+            $documentAST->types["Subscription"] = $definition;
+        }
     }
 }
