@@ -2,12 +2,13 @@
 
 namespace Buoy\LighthouseFairway\Util;
 
+use Buoy\LighthouseFairway\Schema\Enums\EventType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Broadcast
 {
-    public static function modelEvent(Model $model, string $event, bool $shouldQueue = true): void
+    public static function modelEvent(Model $model, EventType $event, bool $shouldQueue = true): void
     {
         $subscription = Str::camel(class_basename($model)) . 'Modified';
 

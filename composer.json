@@ -19,12 +19,11 @@
     }
   ],
   "require": {
-    "nuwave/lighthouse": "^v5.0",
-    "webonyx/graphql-php": "^14.2"
+    "php": "^8.2",
+    "nuwave/lighthouse": "^6"
   },
   "require-dev": {
-    "bensampo/laravel-enum": "^3",
-    "laravel/framework": "^7 || ^8"
+    "webonyx/graphql-php": "^15"
   },
   "config": {
     "sort-packages": true

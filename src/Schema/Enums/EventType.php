@@ -2,11 +2,9 @@
 
 namespace Buoy\LighthouseFairway\Schema\Enums;
 
-use BenSampo\Enum\Enum;
-
-class EventType extends Enum
+enum EventType: string
 {
-    const CREATE = 'create';
-    const UPDATE = 'update';
-    const DELETE = 'delete';
+    case CREATE = 'create';
+    case UPDATE = 'update';
+    case DELETE = 'delete';
 }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Events\RegisterDirectiveNamespaces;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
-use Nuwave\Lighthouse\Schema\Types\LaravelEnumType;
+use GraphQL\Type\Definition\PhpEnumType;
 
 class FairwayServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class FairwayServiceProvider extends ServiceProvider
         ], 'lighthouse-fairway-config');
 
         // Register types
-        $typeRegistry->register(new LaravelEnumType(EventType::class));
+        $typeRegistry->register(new PhpEnumType(EventType::class));
 
         // Register directives
         if (config('lighthouse-fairway.register_directives')) {
